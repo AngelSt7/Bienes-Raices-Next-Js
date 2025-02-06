@@ -9,19 +9,36 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/card": "^2.2.10",
+    "@heroui/input": "^2.4.10",
+    "@heroui/input-otp": "^2.1.9",
+    "@heroui/react": "^2.6.14",
+    "@heroui/switch": "^2.2.9",
+    "@prisma/client": "^6.3.0",
+    "@tanstack/react-query": "^5.66.0",
+    "bcrypt": "^5.1.1",
+    "next": "15.1.6",
+    "next-themes": "^0.4.4",
+    "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.6"
+    "react-hook-form": "^7.54.2",
+    "react-hot-toast": "^2.5.1",
+    "react-icons": "^5.4.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
-    "@eslint/eslintrc": "^3"
+    "postcss": "^8",
+    "prisma": "^6.3.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
