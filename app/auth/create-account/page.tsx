@@ -6,7 +6,7 @@ export default function CreateAccountPage() {
   return (
     <>
       <CreateAccountForm />
-      <div className=' my-4'>
+      <div className=' my-4 flex flex-col sm:flex-row justify-between px-6 gap-2'>
         <LinkToAuth
           href="/auth/login"
           message="¿Ya tienes cuenta?"

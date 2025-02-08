@@ -1,10 +1,17 @@
-import { prisma } from "@/src/lib/prisma"
+import { prisma } from "@/src/config/prisma"
+import { authTokenSchema } from "@/src/schema/authSchema"
+import { validateData } from "@/src/utils/backend/validations/validateData"
 import { NextRequest, NextResponse } from "next/server"
 
 export const POST = async (request: NextRequest) => {
     try {
-        const { token } = await request.json()
+        const body = await request.json().catch(()=>({}))
 
+        const validation = validateData(authTokenSchema, body)
+        if (!validation.success) return NextResponse.json({ errors: validation.errors }, { status: 400 });
+
+        const { token } = validation.data
+            
         const tokenExist = await prisma.token.findFirst({where: {token: parseInt(token)}})
 
         if (!tokenExist) {
@@ -19,7 +26,6 @@ export const POST = async (request: NextRequest) => {
         }
 
         return NextResponse.json({message: "Token confirmado, ingrese su nueva contraseña"})
-
     } catch (error) {
         return NextResponse.json({ error: "Error en el servidor" }, { status: 500 });
     }

@@ -19,7 +19,7 @@ export class AuthEmail {
                         Para confirmar tu cuenta, visita el siguiente enlace:
                     </p>
                     <div style="text-align: center; margin: 20px 0;">
-                        <a href="${process.env.FRONTEND_URL}/auth/confirm-account/${data.token}" 
+                        <a href="${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/confirm-account/${data.token}" 
                             style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; font-weight: bold; border-radius: 5px;">
                             Confirmar Cuenta
                         </a>
@@ -56,7 +56,7 @@ export class AuthEmail {
                         Para restablecer tu contraseña, visita el siguiente enlace:
                     </p>
                     <div style="text-align: center; margin: 20px 0;">
-                        <a href="${process.env.FRONTEND_URL}/auth/reset-password" 
+                        <a href="${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/update-password" 
                             style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; font-weight: bold; border-radius: 5px;">
                             Restablecer Password
                         </a>

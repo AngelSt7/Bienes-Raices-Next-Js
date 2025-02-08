@@ -1,5 +1,7 @@
-import { prisma } from "@/src/lib/prisma"
+import { prisma } from "@/src/config/prisma"
+import { authTokenSchema, authUpdatePasswordSchema } from "@/src/schema/authSchema";
 import { hashPassword } from "@/src/utils/backend/authUtils";
+import { validateData } from "@/src/utils/backend/validations/validateData";
 import { NextRequest, NextResponse } from "next/server"
 
 type Params = {
@@ -8,9 +10,19 @@ type Params = {
 
 export const POST = async (request: NextRequest, { params }: { params: Params }) => {
     try {
-        const { password } = await request.json()
+        const body = await request.json().catch(()=>({}))
         const { token } = await params;
-        const tokenExist = await prisma.token.findFirst({ where: { token: parseInt(token) } })
+
+        const validationBody = validateData(authUpdatePasswordSchema, {password: body.password, repeatPassword: body.password});
+        const validationParam = validateData(authTokenSchema, { token });
+        
+        if (!validationBody.success || !validationParam.success) {
+            return NextResponse.json({ 
+                errors: validationBody.errors || validationParam.errors 
+            }, { status: 400 });
+        }
+        
+        const tokenExist = await prisma.token.findFirst({ where: { token: parseInt(validationParam.data.token) } })
 
         if (!tokenExist) {
             const error = new Error("Token no válido");
@@ -27,20 +39,20 @@ export const POST = async (request: NextRequest, { params }: { params: Params })
         }
 
         const userExist = await prisma.user.findUnique({ where: { id: tokenExist.userId } })
-        await prisma.token.delete({ where: { id: tokenExist.id } });
-
+        
         if (!userExist) {
             const error = new Error('Usuario no encontrado')
             return NextResponse.json({ error: error.message }, { status: 404 })
         }
-
-        const passwordHash = await hashPassword(password)
-
+        
+        const passwordHash = await hashPassword(validationBody.data.password)
+        
         await prisma.user.update({
             where: { id: userExist.id },
             data: { password: passwordHash }
         })
-
+        
+        await prisma.token.delete({ where: { id: tokenExist.id } });
         return NextResponse.json({ message: "Contraseña actualizada correctamente" });
 
     } catch (error) {

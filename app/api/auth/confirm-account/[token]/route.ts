@@ -1,4 +1,6 @@
-import { prisma } from "@/src/lib/prisma";
+import { prisma } from "@/src/config/prisma";
+import { authConfirmAccountSchema } from "@/src/schema/authSchema";
+import { validateData } from "@/src/utils/backend/validations/validateData";
 import { NextRequest, NextResponse } from "next/server";
 
 type Params = {
@@ -6,12 +8,16 @@ type Params = {
 };
 
 export const GET = async (request: NextRequest, { params }: { params: Params }) => {
+    const { token } = await params;
+
+    const validation = validateData(authConfirmAccountSchema, { token });
+    if (!validation.success) return NextResponse.json({ errors: validation.errors }, { status: 400 })
     try {
-        const { token } = await params;
-        const tokenExist = await prisma.token.findFirst({ where: { token: parseInt(token) } })
+
+        const tokenExist = await prisma.token.findFirst({ where: { token: parseInt(validation.data.token) } })
 
         if (!tokenExist) {
-            const error = new Error("Token no válido");
+            const error = new Error("Token no existe");
             return NextResponse.json({ error: error.message }, { status: 404 })
         }
 

@@ -1,7 +1,7 @@
 import { Token, User } from "@prisma/client";
 import { generateToken } from "./authUtils";
-import { prisma } from "@/src/lib/prisma";
-import { AuthEmail } from "@/src/emails/AuthEmail";
+import { prisma } from "@/src/config/prisma";
+import { AuthEmail } from "@/src/class/AuthEmail";
 
 type TokenHandlerData = {
     id: Token['id'],
@@ -12,7 +12,6 @@ type TokenHandlerData = {
 }
 
 export const handleTokenAndEmail = async (dataToken: TokenHandlerData) => {
-
     const { id, name, email, tokenExist, type } = dataToken
 
     const tokenValue = generateToken();
@@ -40,3 +39,15 @@ export const handleTokenAndEmail = async (dataToken: TokenHandlerData) => {
         ? AuthEmail.sendConfirmationEmail(data)
         : AuthEmail.sendPasswordResetToken(data)
 };
+
+
+export const dataSendEmail = async (user : User, tokenExist : Token, type : boolean) => {
+    const dataRequired = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        type: type,
+        tokenExist
+    };
+    await handleTokenAndEmail(dataRequired);
+}

@@ -1,12 +1,20 @@
-import { prisma } from "@/src/lib/prisma"
-import { UserExistNoAuth } from "@/src/services/api/UserExistNoAuth"
-import { dataSendEmail } from "@/src/utils/backend/sendEmails"
+import { prisma } from "@/src/config/prisma"
+import { UserExistNoAuth } from "@/src/utils/backend/validations/UserExistNoAuth"
+import { dataSendEmail } from "@/src/utils/backend/emailUtils";
 import { NextRequest, NextResponse } from "next/server"
+import { validateData } from "@/src/utils/backend/validations/validateData";
+import { authRequestTokenSchema } from "@/src/schema/authSchema";
 
 export const POST = async (request: NextRequest) => {
     try {
-        const { email } = await request.json()
+        const body = await request.json().catch(() => ({}));
 
+        const validation = validateData(authRequestTokenSchema, body);
+        if (!validation.success) {
+            return NextResponse.json({ errors: validation.errors }, { status: 400 });
+        }
+
+        const {email} = validation.data
         const userExist = await UserExistNoAuth(email)
         if (userExist instanceof NextResponse) {
             return userExist;

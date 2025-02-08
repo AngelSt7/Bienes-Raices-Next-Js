@@ -18,11 +18,11 @@ model User {
   name         String
   lastname     String
   email        String  @unique
-  password     String
+  password     String?
   authProvider String  @default("manual")
   confirmed    Boolean @default(false)
-  age          Int
-  number       Int
+  age          Int?
+  number       Int?
   token        Token[]
 }
 

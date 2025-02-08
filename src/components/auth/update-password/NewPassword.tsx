@@ -2,6 +2,10 @@ import { AuthToken, AuthUpdatePassword } from '@/src/types/authTypes'
 import Input from '../../ui/inputs/Input'
 import { useForm } from 'react-hook-form';
 import { AiOutlineLock } from 'react-icons/ai';
+import { useMutation } from '@tanstack/react-query';
+import { authUpdatePassword } from '@/src/services/server-actions/auth-actions/authUpdatePassword-action';
+import toast from 'react-hot-toast';
+import { redirect } from 'next/navigation';
 
 type NewPasswordProps = {
     token: AuthToken['token']
@@ -9,11 +13,21 @@ type NewPasswordProps = {
 
 export default function NewPassword({ token }: NewPasswordProps) {
 
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm<AuthUpdatePassword>();
+    const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<AuthUpdatePassword>();
 
-    const onSubmit = (data: AuthUpdatePassword) => {
-        console.log(data)
-    }
+    const {mutate} = useMutation({
+        mutationFn: authUpdatePassword,
+        onError: (error) => {
+            toast.error(error.message || "Ocurrió un error");
+        },
+        onSuccess: (data) => {
+            reset()
+            toast.success(data);
+            redirect('/auth/login')
+        }
+    })
+
+    const onSubmit = (data: AuthUpdatePassword) => mutate({password: data.password, token}) 
 
     return (
         <div>
@@ -25,7 +39,10 @@ export default function NewPassword({ token }: NewPasswordProps) {
                     type="password"
                     label="Contraseña"
                     placeholder='Ingresa tu contraseña'
-                    register={register("password", { required: "La contraseña es obligatoria" })}
+                    register={register("password", { required: "La contraseña es obligatoria" , minLength: {
+                        value: 6,
+                        message: "La contraseña debe tener mínimo 6 caracteres"
+                    }})}
                     errorMessage={errors.password}
                     Icon={AiOutlineLock}
                 />

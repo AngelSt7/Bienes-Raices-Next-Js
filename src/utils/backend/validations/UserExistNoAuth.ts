@@ -1,4 +1,4 @@
-import { prisma } from "@/src/lib/prisma";
+import { prisma } from "@/src/config/prisma";
 import { User } from "@prisma/client";
 import { NextResponse } from "next/server";
 
@@ -11,7 +11,7 @@ export const UserExistNoAuth = async (email: User['email'])  => {
     }
 
     if (userExist.authProvider !== 'manual') {
-        const error = new Error(`Esta accion no se puede realizar al estar tener una cuenta con el proveedor de ${userExist.authProvider}`);
+        const error = new Error(`Esta accion no se puede realizar al tener una cuenta con el proveedor de ${userExist.authProvider}`);
         return NextResponse.json({ error: error.message }, { status: 409 })
     }
 

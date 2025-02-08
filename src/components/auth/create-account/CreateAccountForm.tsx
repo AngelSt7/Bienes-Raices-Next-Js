@@ -4,14 +4,27 @@ import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
 import { AuthCreateAccount } from '@/src/types/authTypes';
 import { AiOutlineUser, AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
-import { FaPhoneAlt } from "react-icons/fa";
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { authCreateAccount } from '@/src/services/server-actions/auth-actions/authCreateAccount-action';
+import { redirect } from 'next/navigation';
 
 export default function CreateAccountForm() {
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm<AuthCreateAccount>();
+    const { register, handleSubmit, formState: { errors }, getValues, reset } = useForm<AuthCreateAccount>();
 
-    const onSubmit = (data: AuthCreateAccount) => {
-        console.log(data)
-    }
+    const {mutate} = useMutation({
+        mutationFn: authCreateAccount,
+        onError: (error) => {
+            toast.error(error.message || "Ocurrió un error");
+        },
+        onSuccess: (data) => {
+            reset()
+            toast.success(data);
+            redirect('/auth/login')
+        }
+    })
+
+    const onSubmit = (data: AuthCreateAccount) => mutate(data) 
 
     return (
         <div>
@@ -37,46 +50,6 @@ export default function CreateAccountForm() {
                 </div>
 
                 <Input
-                    type="number"
-                    label="Edad"
-                    placeholder='Ingresa tu edad'
-                    register={register("age", {
-                        required: "La edad es obligatoria y debe ser mayor a 18",
-                        min: {
-                            value: 18,
-                            message: "Debes tener al menos 18 años"
-                        },
-                        max: {
-                            value: 85,
-                            message: "Maximo 85 años"
-                        }
-                    }
-                    )}
-                    errorMessage={errors.age}
-                    Icon={AiOutlineUser}
-                />
-
-                <Input
-                    type="number"
-                    label="Teléfono"
-                    placeholder="Ingresa tu número"
-                    register={register("number", {
-                        required: "El número es obligatorio",
-                        maxLength: {
-                            value: 9,
-                            message: "Formato de número no válido"
-                        },
-                        minLength: {
-                            value: 9,
-                            message: "Formato de número no válido"
-                        },
-                    })}
-                    errorMessage={errors.number}
-                    Icon={FaPhoneAlt}
-                />
-
-
-                <Input
                     type="email"
                     label="Email"
                     placeholder='Ingresa tu email'
@@ -95,7 +68,10 @@ export default function CreateAccountForm() {
                     type="password"
                     label="Contraseña"
                     placeholder='Ingresa tu contraseña'
-                    register={register("password", { required: "La contraseña es obligatoria" })}
+                    register={register("password", { required: "La contraseña es obligatoria" , minLength: {
+                        value: 6,
+                        message: "La contraseña debe tener mínimo 6 caracteres"
+                    }})}
                     errorMessage={errors.password}
                     Icon={AiOutlineLock}
                 />
