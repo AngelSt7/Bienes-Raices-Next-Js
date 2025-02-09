@@ -14,22 +14,73 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
   lastname     String
-  email        String  @unique
+  email        String     @unique
   password     String?
-  authProvider String  @default("manual")
-  confirmed    Boolean @default(false)
+  authProvider String     @default("manual")
+  confirmed    Boolean    @default(false)
   age          Int?
-  number       Int?
+  phone        Int?
   token        Token[]
+  property     Property[]
 }
 
 model Token {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  token       Int
-  expiresAt   DateTime 
-  user        User     @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     Int
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Departament {
+  id          Int        @id @default(autoincrement())
+  departament String
+  property    Property[]
+  district    District[]
+}
+
+model District {
+  id            Int         @id @default(autoincrement())
+  district      String
+  departamentId Int
+  departament   Departament @relation(fields: [departamentId], references: [id])
+  property      Property[]
+}
+
+model Type {
+  id       Int        @id @default(autoincrement())
+  type     String
+  property Property[]
+}
+
+model Property {
+  id             Int            @id @default(autoincrement())
+  departmentId   Int            @default(1)
+  districtId     Int
+  area           Float
+  location       String
+  bedrooms       Int
+  bathrooms      Int
+  terrace        Boolean
+  yearBuilt      Int
+  typeId         Int
+  description    String
+  price          Float
+  currency       String
+  elevator       Boolean
+  parkingSpaces  Int      
+  furnished      Boolean
+  services       String[]
+  images         String[]
+  publishedAt    DateTime       @default(now())
+  security24h    Boolean?
+  userId         Int
+  availability   Boolean        @default(true)
+  user           User           @relation(fields: [userId], references: [id])
+  type           Type           @relation(fields: [typeId], references: [id])
+  district       District       @relation(fields: [districtId], references: [id])
+  departament    Departament    @relation(fields: [departmentId], references: [id])
 }

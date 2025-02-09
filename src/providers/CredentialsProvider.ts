@@ -15,7 +15,8 @@ export const credentialsProvider = CredentialsProvider({
             return {
                 id: response.data.id,
                 name: response.data.name,
-                email: response.data.email
+                email: response.data.email,
+                image: null
             };
         } catch (error) {
             const errorMessage = isAxiosError(error) 

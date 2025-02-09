@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import ButtonGoogle from './ButtonGoogle';
 
 export default function LoginForm() {
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm<AuthLogin>();
+    const { register, handleSubmit, formState: { errors } } = useForm<AuthLogin>();
     const router = useRouter()
 
     const onSubmit = async (data: AuthLogin) => {

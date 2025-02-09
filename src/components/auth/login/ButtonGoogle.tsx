@@ -13,7 +13,6 @@ export default function ButtonGoogle() {
     const { data: session, update, status } = useSession();
     const [errorShow, setErrorShow] = useState(false);
 
-    // Manejo de errores en sesión
     useEffect(() => {
         const sessionError = session as CustomSession;
         if (sessionError?.authError && !errorShow) {
@@ -21,6 +20,10 @@ export default function ButtonGoogle() {
             setErrorShow(true);
         }
     }, [session, errorShow]);
+
+    useEffect(()=>{
+        console.log(session)
+    }, [session])
 
     const handleGoogleSignIn = async () => {
         const response = await signIn("google", { redirect: false });

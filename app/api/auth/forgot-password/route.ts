@@ -13,8 +13,8 @@ export const POST = async (request: NextRequest) => {
         if (!validation.success) return NextResponse.json({ errors: validation.errors }, { status: 400 }); 
     
         const { email } = validation.data
-        const userExist = await UserExistNoAuth(email)
-        if (userExist instanceof NextResponse) return userExist
+            const userExist = await UserExistNoAuth(email)
+            if (userExist instanceof NextResponse) return userExist
 
         if (!userExist.confirmed) {
             const error = new Error('El usuario no está confirmado');
