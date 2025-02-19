@@ -1,6 +1,5 @@
 'use server'
 
-
 import api from "@/src/axios/axios";
 import { AuthToken } from "@/src/types/authTypes";
 import { isAxiosError } from 'axios';

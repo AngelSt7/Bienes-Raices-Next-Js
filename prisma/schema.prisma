@@ -56,31 +56,60 @@ model Type {
   property Property[]
 }
 
+model Service {
+  id                Int                 @id @default(autoincrement())
+  service           String
+  serviceToProperty ServiceToProperty[]
+}
+
+model ServiceToProperty {
+  id         Int      @id @default(autoincrement())
+  propertyId Int
+  serviceId  Int
+  property   Property @relation(fields: [propertyId], references: [id])
+  service    Service  @relation(fields: [serviceId], references: [id])
+}
+
+model ImagesToProperty {
+  id          Int      @id @default(autoincrement())
+  propertyId  Int
+  url         String
+  publishedAt DateTime @default(now())
+  property    Property @relation(fields: [propertyId], references: [id])
+}
+
+model Currency {
+  id       Int        @id @default(autoincrement())
+  currency String
+  property Property[]
+}
+
 model Property {
-  id             Int            @id @default(autoincrement())
-  departmentId   Int            @default(1)
-  districtId     Int
-  area           Float
-  location       String
-  bedrooms       Int
-  bathrooms      Int
-  terrace        Boolean
-  yearBuilt      Int
-  typeId         Int
-  description    String
-  price          Float
-  currency       String
-  elevator       Boolean
-  parkingSpaces  Int      
-  furnished      Boolean
-  services       String[]
-  images         String[]
-  publishedAt    DateTime       @default(now())
-  security24h    Boolean?
-  userId         Int
-  availability   Boolean        @default(true)
-  user           User           @relation(fields: [userId], references: [id])
-  type           Type           @relation(fields: [typeId], references: [id])
-  district       District       @relation(fields: [districtId], references: [id])
-  departament    Departament    @relation(fields: [departmentId], references: [id])
+  id                Int                 @id @default(autoincrement())
+  location          String
+  description       String
+  imageMain         String
+  area              Float
+  price             Float
+  terrace           Boolean
+  elevator          Boolean
+  furnished         Boolean
+  parkingSpaces     Boolean
+  currencyId        Int
+  bedrooms          Int
+  bathrooms         Int
+  yearBuilt         Int
+  districtId        Int
+  typeId            Int
+  userId            Int
+  departmentId      Int                 @default(1)
+  publishedAt       DateTime            @default(now())
+  availability      Boolean             @default(true)
+  user              User                @relation(fields: [userId], references: [id])
+  type              Type                @relation(fields: [typeId], references: [id])
+  district          District            @relation(fields: [districtId], references: [id])
+  departament       Departament         @relation(fields: [departmentId], references: [id])
+  currency          Currency            @relation(fields: [currencyId], references: [id])
+  serviceToProperty ServiceToProperty[]
+  imagesToProperty  ImagesToProperty[]
 }

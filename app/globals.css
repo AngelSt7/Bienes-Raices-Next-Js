@@ -2,18 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
-:root {
-  --color-background-light: #f7f7f7;
-  --color-background-dark: #101014;
-}
-
 .light {
-  background-color: var(--color-background-light);
+  background-color: #F5F5F5;
 }
+
 
 .dark {
-  background-color: var(--color-background-dark);
+  background-color: #101014;
 }
 
 body {

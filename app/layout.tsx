@@ -20,6 +20,22 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+      <script dangerouslySetInnerHTML={{
+  __html: `
+    (function() {
+      let theme = localStorage.getItem('theme');
+      if (!theme) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  `
+}} />
+
         <link rel="icon" href="./BienesRaicesLogo.png" type="image/png" />
       </head>
 

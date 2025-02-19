@@ -1,4 +1,5 @@
 import { prisma } from "@/src/config/prisma";
+import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest, {params}: {params : {take: string, skip: string}}) => {
@@ -16,8 +17,7 @@ export const GET = async (request: NextRequest, {params}: {params : {take: strin
         parkingSpaces: true,
         price: true,
         currency: true,
-        yearBuilt: true,
-        images: true
+        yearBuilt: true
       },
       take: parseInt(take),
       skip: parseInt(skip)
@@ -29,7 +29,7 @@ export const GET = async (request: NextRequest, {params}: {params : {take: strin
       properties,
       pages: Math.ceil(totalPages/parseInt(take))
     })
-  } catch (error) {
-    return NextResponse.json({ error: 'error en el servidor' }, { status: 500 })
+  } catch {
+    return NextResponse.json({ error: ERRORS.SERVER_ERROR.message }, { status: ERRORS.SERVER_ERROR.status })
   }
 }

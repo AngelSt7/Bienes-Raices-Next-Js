@@ -23,7 +23,7 @@ export default function LoginForm() {
             toast.error(response.error);
             return;
         }
-        router.replace("/dashboard/create");
+        router.replace("/properties");
     };
 
     return (

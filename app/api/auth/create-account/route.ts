@@ -2,6 +2,7 @@ import { AuthEmail } from "@/src/class/AuthEmail";
 import { prisma } from "@/src/config/prisma";
 import { authCreateAccountSchema } from "@/src/schema/authSchema";
 import { generateToken, hashPassword } from "@/src/utils/backend/authUtils";
+import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { validateData } from "@/src/utils/backend/validations/validateData";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,10 +15,10 @@ export const POST = async (request: NextRequest) => {
     try {
         const { name, lastname, email, password } = validation.data;
         const existAccount = await prisma.user.findUnique({ where: { email } })
-        if (existAccount) {
-            return NextResponse.json({ error: "Este correo ya está registrado" }, { status: 500 });
-        }
 
+        if (existAccount)
+            return NextResponse.json({ error: ERRORS.EMAIL_ALREADY_REGISTERED.message }, { status: ERRORS.EMAIL_ALREADY_REGISTERED.status });
+        
         const passwordHash = await hashPassword(password)
         const limitTime = new Date();
         const expiresAt = new Date(limitTime.getTime() + 10 * 60 * 1000);
@@ -32,7 +33,7 @@ export const POST = async (request: NextRequest) => {
 
         await AuthEmail.sendConfirmationEmail({ email, name, token })
         return NextResponse.json({ message: "Usuario creado correctamente" });
-    } catch (error) {
-        return NextResponse.json({ error: "Error en el servidor" }, { status: 500 });
+    } catch {
+        return NextResponse.json({ error: ERRORS.SERVER_ERROR.message }, { status: ERRORS.SERVER_ERROR.status });
     }
 };

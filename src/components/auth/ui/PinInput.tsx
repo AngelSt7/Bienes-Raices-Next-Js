@@ -27,11 +27,11 @@ export default function PinInput({ setToken, setIsValidToken }: PinInputProps) {
 
   useEffect(() => {
     if (value.length === 6) {
-      mutate({token: value})
-      setToken(value)
+      mutate({token: value});
+      setToken(value);
     }
-  }, [value])
-
+  }, [value, mutate, setToken]);
+  
   return (
     <div className="flex flex-col justify-center items-center gap-2 rounded-xl w-fit mx-auto p-2">
       <InputOtp isRequired={false} color="warning" size="lg" length={6} value={value} onValueChange={setValue} errorMessage="Completa el codigo para continuar" />

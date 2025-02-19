@@ -5,6 +5,7 @@ import { dataSendEmail } from "@/src/utils/backend/emailUtils";
 import { NextRequest, NextResponse } from "next/server";
 import { validateData } from "@/src/utils/backend/validations/validateData";
 import { authLoginSchema } from "@/src/schema/authSchema";
+import { ERRORS } from "@/src/utils/backend/errors/errors";
 
 export const POST = async (request: NextRequest) => {
     try {
@@ -22,20 +23,17 @@ export const POST = async (request: NextRequest) => {
         if (!userExist.confirmed) {
             const tokenExist = await prisma.token.findFirst({ where: { userId: userExist.id } });
             await dataSendEmail(userExist, tokenExist!, true);
-            const error = new Error("La cuenta no ha sido confirmada, hemos enviado un nuevo token a tu email para confirmar tu cuenta");
-            return NextResponse.json({ error: error.message }, { status: 401 })
+            return NextResponse.json({ error: ERRORS.ACCOUNT_NOT_CONFIRMED.message }, { status: ERRORS.ACCOUNT_NOT_CONFIRMED.status })
         }
 
         const isPasswordCorrect = await checkPassword(password, userExist.password!)
 
-        if (!isPasswordCorrect) {
-            const error = new Error("Contraseña incorrecta")
-            return NextResponse.json({ error: error.message }, { status: 401 })
-        }
+        if (!isPasswordCorrect) 
+            return NextResponse.json({ error: ERRORS.INCORRECT_PASSWORD.message }, { status: ERRORS.INCORRECT_PASSWORD.status })
 
         return NextResponse.json({ id: userExist.id, name: `${userExist.name} ${userExist.lastname}`, email: userExist.email });
 
-    } catch (error) {
-        return NextResponse.json({ error: "Error en el servidor" }, { status: 500 });
+    } catch {
+        return NextResponse.json({ error: ERRORS.SERVER_ERROR.message }, { status: ERRORS.SERVER_ERROR.status });
     }
 }

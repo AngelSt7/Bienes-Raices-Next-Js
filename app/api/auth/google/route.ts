@@ -1,15 +1,17 @@
 import { prisma } from "@/src/config/prisma";
 import { authCreateAccountGoogleSchema } from "@/src/schema/authSchema";
+import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { validateData } from "@/src/utils/backend/validations/validateData";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
-    const body = await request.json().catch(() => ({}));
-
-    const validation = validateData(authCreateAccountGoogleSchema, body);
-    if (!validation.success) return NextResponse.json({ errors: validation.errors }, { status: 400 })
-
     try {
+        const body = await request.json().catch(() => ({}));
+
+        const validation = validateData(authCreateAccountGoogleSchema, body);
+        if (!validation.success) 
+            return NextResponse.json({ errors: validation.errors }, { status: 400 });
+
         const { name, lastname, email, authProvider, confirmed } = validation.data;
 
         const user = await prisma.user.upsert({
@@ -18,11 +20,12 @@ export const POST = async (request: NextRequest) => {
             create: { name, lastname, email, authProvider, confirmed }
         });
 
-        if (user.authProvider === "manual") {
-            return NextResponse.json({ error: "El usuario ya fue registrado de forma manual" }, { status: 400 });
-        }
+        if (user.authProvider === "manual") 
+            return NextResponse.json({ error: ERRORS.MANUAL_ACCOUNT_EXISTS.message }, { status: ERRORS.MANUAL_ACCOUNT_EXISTS.status });
+      
+        return NextResponse.json({ message: "Usuario autenticado con Google", user });
 
-    } catch (error) {
-        return NextResponse.json({ error: "Error en el servidor" }, { status: 500 });
+    } catch {
+        return NextResponse.json({ error: ERRORS.SERVER_ERROR.message }, { status: ERRORS.SERVER_ERROR.status });
     }
 };

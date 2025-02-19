@@ -10,7 +10,7 @@ type CustomSession = {
 
 export default function ButtonGoogle() {
     const router = useRouter();
-    const { data: session, update, status } = useSession();
+    const { data: session } = useSession();
     const [errorShow, setErrorShow] = useState(false);
 
     useEffect(() => {
@@ -21,25 +21,20 @@ export default function ButtonGoogle() {
         }
     }, [session, errorShow]);
 
-    useEffect(()=>{
-        console.log(session)
-    }, [session])
-
     const handleGoogleSignIn = async () => {
         const response = await signIn("google", { redirect: false });
-
         if (response?.error) {
             toast.error("Error de autenticación. Intenta de nuevo.");
             return;
         } else {
-            router.replace("/dashboard/create");
+            router.replace("/dashboard/properties");
         }
     };
 
     return (
         <div className="flex justify-center mt-4">
             <button onClick={handleGoogleSignIn}>
-                <Image src="/Google.png" alt="Login Google" width={30} height={30} />
+                <Image priority src="/Google.png" alt="Login Google" width={30} height={30} />
             </button>
         </div>
     );

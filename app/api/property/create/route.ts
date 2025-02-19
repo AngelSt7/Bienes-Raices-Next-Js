@@ -3,26 +3,44 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { validateData } from "@/src/utils/backend/validations/validateData";
-import { adminCreateProperty } from "@/src/schema/property";
+import { getDataToJson } from "@/src/utils/backend/formatData/formatData";
+import { ERRORS } from "@/src/utils/backend/errors/errors";
+import { adminFormDataPropertySchema } from "@/src/schema/adminPropertySchema";
 
 export const POST = async (request: NextRequest) => {
   try {
-    const body = await request.json().catch(()=>({}));
-    
-    const validation = validateData(adminCreateProperty, body)
-    if(!validation.success) return NextResponse.json({errors: validation.errors}, {status: 400})
+    const body = await request.json().catch(() => ({}));
+
+    const validation = validateData(adminFormDataPropertySchema, body)
+    if (!validation.success) return NextResponse.json({ errors: validation.errors }, { status: 400 })
+
+    const { data, imagesGallery, services } = getDataToJson(validation.data)
 
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({message: "Para crear una propiedad, debes autenticarte" }, { status: 401 })
+    if (!session) return NextResponse.json({ error: ERRORS.AUTH_REQUIRED_CREATE_PROPERTY.message }, { status: ERRORS.AUTH_REQUIRED_CREATE_PROPERTY.status })
 
-    if (session?.user?.email) {
+    if (session.user && session.user.email) {
       const user = await prisma.user.findUnique({ where: { email: session.user.email } })
-      if (!user) return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 });
-      await prisma.property.create({ data: { ...validation.data, userId: user?.id } });
+      if (!user) return NextResponse.json({ message: ERRORS.USER_NOT_FOUND.message }, { status: ERRORS.USER_NOT_FOUND.status });
+
+      await prisma.property.create({
+        data: {
+          ...data, userId: user.id,
+          imagesToProperty: {
+            create: imagesGallery.map(imageGallery => ({
+              url: imageGallery.toString()
+            }))
+          },
+          serviceToProperty: {
+            create: services.map(service => ({
+              serviceId: Number(service)
+            }))
+          }
+        }
+      })
       return NextResponse.json({ message: "Propiedad creada correctamente" });
     }
-  } catch (error) {
-    console.error("Error en el servidor:", error);
-    return NextResponse.json({ error: "Error en el servidor" }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: ERRORS.SERVER_ERROR.message }, { status: ERRORS.SERVER_ERROR.status });
   }
 };

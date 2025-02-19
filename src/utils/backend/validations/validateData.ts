@@ -7,5 +7,6 @@ export const validateData = (schema: ZodSchema, data: unknown) => {
         const errorMessages = Object.values(result.error)
         return { success: false, errors: errorMessages };
     }
+    
     return { success: true, data: result.data };
 };
