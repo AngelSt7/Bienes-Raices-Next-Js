@@ -6,6 +6,7 @@ import { validateData } from "@/src/utils/backend/validations/validateData";
 import { getDataToJson } from "@/src/utils/backend/formatData/formatData";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { adminFormDataPropertySchema } from "@/src/schema/adminPropertySchema";
+import { getCoordinates } from "@/src/utils/backend/coordinates/coordinates";
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -23,9 +24,14 @@ export const POST = async (request: NextRequest) => {
       const user = await prisma.user.findUnique({ where: { email: session.user.email } })
       if (!user) return NextResponse.json({ message: ERRORS.USER_NOT_FOUND.message }, { status: ERRORS.USER_NOT_FOUND.status });
 
+      const district = await prisma.district.findUnique({where: { id: Number(validation.data.districtId) }})
+      const address = await getCoordinates(`${validation.data.location}, ${district}, Lima, Perú`)
+
       await prisma.property.create({
         data: {
           ...data, userId: user.id,
+          latitude: address?.lat,
+          longitude: address?.lng,          
           imagesToProperty: {
             create: imagesGallery.map(imageGallery => ({
               url: imageGallery.toString()

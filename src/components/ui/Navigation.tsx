@@ -12,6 +12,7 @@ export default function Navigation() {
         if (path.includes('edit')) return 'edit'
         if (path.includes('view')) return 'view'
         if (path === '/dashboard/properties') return 'properties'
+        if (path === '/dashboard/profile') return 'profile'
         return 'default'
     }
 

@@ -3,7 +3,7 @@
 import LinkToAuth from "@/src/components/auth/ui/LinkToAuth";
 import NewPassword from "@/src/components/auth/update-password/NewPassword";
 import TokenToResetPassword from "@/src/components/auth/update-password/TokenToResetPassword";
-import { AuthToken } from "@/src/types/authTypes";
+import { AuthToken } from "@/src/types/authTypes/auth";
 import Link from "next/link";
 import { useState } from "react";
 

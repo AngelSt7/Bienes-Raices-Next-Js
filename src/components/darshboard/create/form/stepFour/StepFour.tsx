@@ -25,8 +25,6 @@ export default function StepFour({ register, errors, setValue, watch, dataProper
                     errorMessage={errors.price}
                     placeholder='Ingrese el precio de alquiler o venta' 
                     setValue={setValue}
-                    defaultData={dataProperty?.price}
-                    name='price'
                 />
                 <Select setValue={setValue} register={register('currencyId', { required: 'Debes seleccionar una moneda' })} data={Currency} errorMessage={errors.districtId} name='currencyId' watch={watch} label='Moneda' placeholder='Seleccione la moneda que desea recibir' />
             </div>

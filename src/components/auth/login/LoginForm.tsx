@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
-import { AuthLogin } from '@/src/types/authTypes';
+import { AuthLogin } from '@/src/types/authTypes/auth';
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
@@ -23,7 +23,7 @@ export default function LoginForm() {
             toast.error(response.error);
             return;
         }
-        router.replace("/properties");
+        router.replace("/dashboard/properties");
     };
 
     return (

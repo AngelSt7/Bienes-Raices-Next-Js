@@ -1,5 +1,5 @@
 import { Select, SelectItem } from "@heroui/react";
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
 import type { Selection } from "@heroui/react";
 import { useAppStore } from "@/src/store/useAppStore";
@@ -31,9 +31,8 @@ export default function NavigationTable({ handleSearch }: InputSearch) {
         router.push(`${pathname}?${params.toString()}`);
     }, [value])
 
-
     return (
-        <div className=' flex flex-col md:flex-row md:justify-between'>
+        <div className=' w-full flex flex-row justify-between gap-4'>
             <div className="relative">
                 <input
                     type="text"

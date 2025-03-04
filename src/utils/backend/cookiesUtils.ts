@@ -3,6 +3,5 @@ import { redirect } from "next/navigation"
 
 export const serverGetCookie = async () => {
     const cookie = (await cookies()).get('next-auth.session-token')?.value
-    if(!cookie) redirect('/auth/login') 
-    return cookie
+    return cookie as string
 }

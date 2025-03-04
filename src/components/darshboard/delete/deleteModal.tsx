@@ -1,5 +1,5 @@
 'use client'
-import { adminDeleteProperty } from "@/src/services/client/properties/adminDeleteProperty";
+import { adminDeleteProperty } from "@/src/services/client/properties/admin/adminDeleteProperty";
 import { useAppStore } from "@/src/store/useAppStore";
 import { PaginationType, SessionNextAuth } from "@/src/types/adminTypes/adminProperty";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@heroui/react";

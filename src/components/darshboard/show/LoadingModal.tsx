@@ -1,6 +1,6 @@
 'use client'
 
-import { adminGetDetailsPropertyInModal } from "@/src/services/client/properties/adminGetDetailsPropertyInModal";
+import { adminGetDetailsPropertyInModal } from "@/src/services/client/properties/admin/adminGetDetailsPropertyInModal";
 import { useQuery } from "@tanstack/react-query";
 import { redirect, useRouter, useSearchParams } from "next/navigation"
 import DetailsModal from "./DetailsModal";

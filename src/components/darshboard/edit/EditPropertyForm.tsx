@@ -8,7 +8,7 @@ import TabsForm from '../ui/TabsForms'
 import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md'
 import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { adminEditProperty } from '@/src/services/client/properties/adminEditProperty'
+import { adminEditProperty } from '@/src/services/client/properties/admin/adminEditProperty'
 import { uploadAndFormatImages } from '@/src/utils/frontend/images/uploadImages'
 
 type EditPropertyFormProps = {

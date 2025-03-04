@@ -1,5 +1,4 @@
 import { StateCreator } from "zustand";
-import { devtools, persist } from "zustand/middleware";
 import { PaginationType } from "../types/adminTypes/adminProperty";
 
 export type PropertySlice = {

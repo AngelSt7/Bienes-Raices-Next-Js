@@ -1,6 +1,8 @@
 import api from "@/src/axios/axios";
 import { credentialsProvider } from "@/src/providers/CredentialsProvider";
 import { googleProvider } from "@/src/providers/GoogleProvider";
+import { authCreateAccountGoogleSchema } from "@/src/schema/authSchema";
+import { validateData } from "@/src/utils/backend/validations/validateData";
 import { isAxiosError } from "axios";
 import NextAuth, { NextAuthOptions, Session } from "next-auth";
 
@@ -12,6 +14,7 @@ type GoogleProfile = {
 
 interface CustomSession extends Session {
     authError?: string;
+    requiresInfo: boolean
 }
 
 export const authOptions: NextAuthOptions = {
@@ -31,7 +34,13 @@ export const authOptions: NextAuthOptions = {
                         confirmed: true,
                     };
 
-                    await api.post(url, createAccount);
+                    const user = await api.post(url, createAccount);
+                    const validation = validateData(authCreateAccountGoogleSchema, user)
+                    if(!validation.success){
+                        token.requiresInfo = true
+                    } else {
+                        token.requiresInfo = false
+                    }
                 } catch (error) {
                     const errorMessage = isAxiosError(error)
                         ? error.response?.data?.error
@@ -44,10 +53,10 @@ export const authOptions: NextAuthOptions = {
         },
         async session({ session, token }) {
             const customSession = session as CustomSession;
-            customSession.authError = token.authError as string | undefined; 
-            token.authError = undefined;
+            customSession.authError = token.authError as string | undefined;
+            customSession.requiresInfo = Boolean(token.requiresInfo);
             return customSession;
-        },
+        }            
     },
     pages: {
         signIn: "/auth/login",

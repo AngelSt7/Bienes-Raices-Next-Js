@@ -1,17 +1,43 @@
 'use client'
-import { Fragment } from 'react'
-import { Popover, Transition } from '@headlessui/react'
+import { Fragment } from 'react';
+import { Popover, Transition } from '@headlessui/react';
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Home, User as UserIcon, ShoppingBag, LogIn, LogOut } from 'lucide-react';
-import Link from 'next/link'
+import { Home, User as UserIcon, ShoppingBag, LogOut, Heart } from 'lucide-react';
+import Link from 'next/link';
 import Switcher from '../../ui/darkMode/SwitchMode';
+import { signOut } from 'next-auth/react';
+
+const links = [
+    {
+        href: '/es',
+        label: 'Página Principal',
+        icon: <Home size={18} />,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+    },
+    {
+        href: '/dashboard/profile',
+        label: 'Mi Perfil',
+        icon: <UserIcon size={18} />,
+    },
+    {
+        href: '/dashboard/properties?page=1',
+        label: 'Mis Propiedades',
+        icon: <ShoppingBag size={18} />,
+    },
+    {
+        href: '/dashboard/favorites',
+        label: 'Mis Favoritos',
+        icon: <Heart size={18} />,
+    },
+];
 
 export default function Menu() {
 
     return (
         <Popover className="relative z-50 ">
             <Popover.Button className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-transparent">
-                <RxHamburgerMenu className='w-10 h-10 text-slate-800 dark:text-slate-50 bg-[#F5F5F5] dark:bg-[#181818] p-1 rounded-xl'/>
+                <RxHamburgerMenu className='w-10 h-10 text-slate-800 dark:text-slate-50 bg-[#F5F5F5] dark:bg-[#181818] p-1 rounded-xl' />
             </Popover.Button>
             <Transition
                 as={Fragment}
@@ -26,28 +52,19 @@ export default function Menu() {
                     <div className="w-56 shrink rounded-xl bg-white dark:bg-[#181818] p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5">
                         <>
                             <p className='text-center dark:text-slate-200 text-zinc-800'>Hola: Tu nombre</p>
-                            <Link
-                                href='/es'
-                                className='dark:text-slate-300 dark:hover:text-slate-50 text-zinc-600 flex items-center p-2 hover:text-zinc-950 gap-2'
-                            >
-                                <Home size={18} />
-                                Inicio
-                            </Link>
-                            <Link
-                                href='/es/profile'
-                                className='dark:text-slate-300 dark:hover:text-slate-50 text-zinc-600 p-2 flex items-center hover:text-zinc-950 gap-2'
-                            >
-                                <UserIcon size={18} />
-                                Mi Perfil
-                            </Link>
-                            <Link
-                                href='/es/purchases'
-                                className='dark:text-slate-300 dark:hover:text-slate-50 text-zinc-600 p-2 flex items-center hover:text-zinc-950 gap-2'
-                            >
-                                <ShoppingBag size={18} />
-                                Mis Compras
-                            </Link>
+                            {links.map(({ href, label, icon, target, rel }) => (
+                                <Link
+                                    key={href}
+                                    href={href}
+                                    className='dark:text-slate-300 dark:hover:text-slate-50 text-zinc-600 flex items-center p-2 hover:text-zinc-950 gap-2'
+                                    target={target}
+                                    rel={rel}
+                                >
+                                    {icon} {label}
+                                </Link>
+                            ))}
                             <button
+                                onClick={() => signOut({ callbackUrl: '/es' })}
                                 className='dark:text-slate-300 dark:hover:text-slate-50 text-zinc-600 p-2 flex items-center hover:text-zinc-950 focus:outline-none focus:ring-0 gap-2 w-full'
                                 type='button'
                             >

@@ -3,6 +3,7 @@ import { Cloudinary } from "@/src/class/Cloudinary";
 import { prisma } from "@/src/config/prisma";
 import { adminFormDataPropertySchema } from "@/src/schema/adminPropertySchema";
 import { addAndRemoveImages, addAndRemoveServices } from "@/src/utils/backend/addAndRemove";
+import { getCoordinates } from "@/src/utils/backend/coordinates/coordinates";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { getDataToJson } from "@/src/utils/backend/formatData/formatData";
 import { validateData } from "@/src/utils/backend/validations/validateData";
@@ -24,6 +25,7 @@ export const PUT = async (request: NextRequest, { params }: { params: { id: stri
                 where: { id: Number(id) },
                 select: {
                     id: true,
+                    district: { select: { district: true } },
                     imagesToProperty: { select: { id: true, url: true } },
                     serviceToProperty: { select: { id: true, serviceId: true } },
                     user: { select: { email: true } },
@@ -43,20 +45,26 @@ export const PUT = async (request: NextRequest, { params }: { params: { id: stri
 
             const promises = [];
 
-            if(property.imageMain !== validation.data.imageMain){
+            promises.push(getCoordinates(`${validation.data.location}, ${property.district.district}, Lima, Perú`))
+
+            if (property.imageMain !== validation.data.imageMain) {
                 const publicId = getPublicId(property.imageMain)
                 promises.push(Cloudinary.deleteImage(publicId))
             }
-            
-            promises.push(addAndRemoveServices({frontServices: validation.data.services, serviceToProperty: property.serviceToProperty, id: property.id}))
-            promises.push(addAndRemoveImages({frontImages : validation.data.imagesGallery, imagesToProperty: property.imagesToProperty, id: property.id}))
 
-            await Promise.all(promises)
+            promises.push(addAndRemoveServices({ frontServices: validation.data.services, serviceToProperty: property.serviceToProperty, id: property.id }))
+            promises.push(addAndRemoveImages({ frontImages: validation.data.imagesGallery, imagesToProperty: property.imagesToProperty, id: property.id }))
+
+            const [, , address] = await Promise.all(promises)
             const { data: updateData } = getDataToJson(validation.data);
 
             await prisma.property.update({
                 where: { id: parseInt(id) },
-                data: { ...updateData }
+                data: {
+                    ...updateData,
+                    latitude: address?.lat,
+                    longitude: address?.lng
+                }
             });
             return NextResponse.json({ message: "Propiedad actualizada correctamente" });
         }

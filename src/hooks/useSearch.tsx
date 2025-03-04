@@ -1,8 +1,8 @@
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { adminGetProperties } from "@/src/services/client/properties/adminGetProperties";
-import { adminSearchProperties } from "../services/client/properties/adminSearchProperties";
+import { adminGetProperties } from "@/src/services/client/properties/admin/adminGetProperties";
+import { adminSearchProperties } from "../services/client/properties/admin/adminSearchProperties";
 import { useAppStore } from "../store/useAppStore";
 
 export const useSearch = () => {

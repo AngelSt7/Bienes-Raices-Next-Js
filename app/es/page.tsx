@@ -1,56 +1,13 @@
-'use client'
+import ExtrasPropertiesSection from "@/src/components/es/sections/ExtrasPropertiesSection"
+import PropertiesSection from "@/src/components/es/sections/PropertiesSection"
+import StatsSection from "@/src/components/es/sections/StatsSection"
 
-import Image from "next/image"
-
-export default function page() {
-
+export default async function page() {
     return (
         <>
-            <div className=" bg-red-800 ">
-                <Image
-                    src={'/Header.jpg'}
-                    width={500}
-                    height={500}
-                    priority
-                    alt="Imagen Bienes Raices"
-                />
-            </div>
-            <div className=" bg-green-900">
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-                <p>Hola</p>
-            </div>
+            <PropertiesSection/>
+            <StatsSection />
+            <ExtrasPropertiesSection />
         </>
     )
 }

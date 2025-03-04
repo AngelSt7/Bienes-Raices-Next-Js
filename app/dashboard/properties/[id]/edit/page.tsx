@@ -1,5 +1,5 @@
 import EditPropertyForm from '@/src/components/darshboard/edit/EditPropertyForm';
-import { adminGetPropertyById } from '@/src/services/client/properties/adminGetPropertyById';
+import { adminGetPropertyById } from '@/src/services/client/properties/admin/adminGetPropertyById';
 import { serverGetCookie } from '@/src/utils/backend/cookiesUtils';
 import { notFound, redirect } from 'next/navigation';
 import React from 'react'

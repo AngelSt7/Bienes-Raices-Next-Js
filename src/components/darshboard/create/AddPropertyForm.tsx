@@ -7,7 +7,7 @@ import { FormProvider, SubmitHandler } from 'react-hook-form';
 import TabsForm from '../ui/TabsForms';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { adminCreateProperty } from '@/src/services/client/properties/adminCreateProperty';
+import { adminCreateProperty } from '@/src/services/client/properties/admin/adminCreateProperty';
 import { AdminFormDataProperty } from '@/src/types/adminTypes/adminProperty';
 import { cloudinaryUploadImages } from '@/src/services/cloudinary/cloudinaryUploadImages';
 

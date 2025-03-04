@@ -15,14 +15,15 @@ type TablePropertiesProps = {
 };
 
 export default function TableProperties({ page, key }: TablePropertiesProps) {
-  const { handleSearch, dataProperty, setKey, isFetching , isFetchingSearch, propertyData, searchData, paramSearch } = useSearch();
-  useEffect(()=>{setKey(key)},  [])
-  
+  const { handleSearch, dataProperty, setKey, isFetching, isFetchingSearch, propertyData, searchData, paramSearch } = useSearch();
+  useEffect(() => { setKey(key) }, [])
+
   return (
     <>
       <div className=" space-y-5">
-        <NavigationTable handleSearch={handleSearch} />
-
+        {propertyData && propertyData.properties.length > 0 && (
+          <NavigationTable handleSearch={handleSearch} />
+        )}
         <Table>
           <TableHeader columns={columns} className="flex justify-center">
             {(column) => (
@@ -33,10 +34,10 @@ export default function TableProperties({ page, key }: TablePropertiesProps) {
           </TableHeader>
 
           <TableBody
-            items={dataProperty ?? [] }
+            items={dataProperty ?? []}
             loadingContent={<Spinner />}
             loadingState={isFetching || isFetchingSearch ? "loading" : "idle"}
-            emptyContent={"No hay registros, comience creando uno"}
+            emptyContent={propertyData?.properties.length === 0 ? "No hay propiedades, comienze creando una" : "No se encontraron resultados"}
           >
             {(item) => (
               <TableRow key={item.id} className="hover:bg-[#F7F7F7] dark:hover:bg-[#222225]">
@@ -50,11 +51,11 @@ export default function TableProperties({ page, key }: TablePropertiesProps) {
           </TableBody>
         </Table>
       </div>
-
-      <div className="mx-auto mt-3 bg-white dark:bg-transparent w-fit px-2 rounded-xl">
-      <Pagination total={paramSearch ? searchData?.pages || 1 : propertyData?.pages || 1} />
-
-      </div>
+      {propertyData && propertyData.properties.length > 0 && (
+        <div className="mx-auto mt-3 bg-white dark:bg-transparent w-fit px-2 rounded-xl">
+          <Pagination total={paramSearch ? searchData?.pages || 1 : propertyData?.pages || 1} />
+        </div>
+      )}
     </>
   );
 }

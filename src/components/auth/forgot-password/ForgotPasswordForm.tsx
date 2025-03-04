@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
-import { AuthForgotPassword } from '@/src/types/authTypes';
+import { AuthForgotPassword } from '@/src/types/authTypes/auth';
 import { AiOutlineMail } from 'react-icons/ai';
 import { useMutation } from '@tanstack/react-query';
 import { authForgotPassword } from '@/src/services/server-actions/auth-actions/authForgotPasswordAccount-action';

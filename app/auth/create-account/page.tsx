@@ -12,6 +12,11 @@ export default function CreateAccountPage() {
           message="¿Ya tienes cuenta?"
           label="Iniciar sesión"
         />
+        <LinkToAuth
+          href="/auth/forgot-password"
+          message="¿Olvidaste tu contraseña?"
+          label="Recuperar acceso"
+        />
       </div>
     </>
   )

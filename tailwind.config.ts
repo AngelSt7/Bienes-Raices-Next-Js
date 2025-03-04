@@ -11,7 +11,11 @@ export default {
   ],
   theme: {
     extend: {
-      
+      screens: {
+        xs: "500px", 
+        mdx: "700px",
+        xmd: "900px"
+      },
     },
   },
   darkMode: "class",

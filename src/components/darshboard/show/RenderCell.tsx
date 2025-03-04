@@ -16,7 +16,7 @@ const RenderCell = memo(({ property, columnKey }: RenderCellProps) => {
     switch (columnKey) {
         case "location":
             return (
-                <div>
+                <div className="  min-w-36  ">
                     <ImageProperty
                         avatarProps={{ radius: "lg", src: property.imageMain }}
                         description={formatDateLong(property.publishedAt)}
@@ -42,7 +42,7 @@ const RenderCell = memo(({ property, columnKey }: RenderCellProps) => {
         case "type":
             return <p className="text-bold text-sm capitalize">{property.type.type}</p>;
         case "price":
-            return <div>
+            return <div className=" min-w-24">
                 <p className={`${property.type.type === 'venta' ? 'hidden' : ''} text-bold text-xs capitalize text-default-400`}>Por mes</p>
                 <p className="text-bold text-sm capitalize ">
                     {formatCurrency(property.price, property.currency.currency)}
