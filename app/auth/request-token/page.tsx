@@ -6,7 +6,7 @@ export default function ReequestTokenPage() {
     <>
       <h2 className=' px-6 text-base text-zinc-800 dark:text-zinc-500 font-semibold text-center'>Ingresa tu email para solicitar y enviarte un nuevo token</h2>
       <ReequestTokenForm />
-      <div className=' my-4 flex justify-between px-6'>
+      <div className=' my-4 flex flex-col sm:flex-row justify-between px-6 gap-2'>
         <LinkToAuth
           href="/auth/login"
           message="¿Ya tienes cuenta?"

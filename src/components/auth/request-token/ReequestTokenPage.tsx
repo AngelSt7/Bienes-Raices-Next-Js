@@ -2,15 +2,27 @@
 
 import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
-import { AuthForgotPassword } from '@/src/types/authTypes';
+import { AuthRequestToken } from '@/src/types/authTypes/auth';
 import { AiOutlineMail } from 'react-icons/ai';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+import { authRequestToken } from '@/src/services/server/auth-actions/authRequesteToken-action';
 
 export default function ReequestTokenForm() {
-    const { register, handleSubmit, formState: { errors }, getValues } = useForm<AuthForgotPassword>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<AuthRequestToken>();
 
-    const onSubmit = (data: AuthForgotPassword) => {
-        console.log(data)
-    }
+    const { mutate } = useMutation({
+        mutationFn: authRequestToken,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            reset()
+            toast.success(data)
+        }
+    })
+
+    const onSubmit = (data: AuthRequestToken) => mutate(data)
 
     return (
         <div>

@@ -6,7 +6,7 @@ export default function ForgotPasswordPage() {
     <>
       <h2 className=' px-6 text-base text-zinc-800 dark:text-zinc-500 font-semibold text-center'>Te enviaremos un email para recuperar tu acceso, porfavor, ingresa tu email a continuación:</h2>
       <ForgotPasswordForm />
-      <div className=' my-4'>
+      <div className=' my-4 flex flex-col sm:flex-row justify-between px-6 gap-2'>
         <LinkToAuth
           href="/auth/login"
           message="¿Ya tienes cuenta?"

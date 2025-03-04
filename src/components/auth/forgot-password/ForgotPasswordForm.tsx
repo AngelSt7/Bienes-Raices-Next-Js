@@ -2,16 +2,28 @@
 
 import { useForm } from 'react-hook-form';
 import Input from '../../ui/inputs/Input';
-import { AuthRequestToken } from '@/src/types/authTypes';
+import { AuthForgotPassword } from '@/src/types/authTypes/auth';
 import { AiOutlineMail } from 'react-icons/ai';
+import { useMutation } from '@tanstack/react-query';
+import { authForgotPassword } from '@/src/services/server-actions/auth-actions/authForgotPasswordAccount-action';
+import toast from 'react-hot-toast';
 
 export default function ForgotPasswordForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm<AuthRequestToken>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<AuthForgotPassword>();
 
-    const onSubmit = (data: AuthRequestToken) => {
-        console.log(data)
-    }
+    const { mutate } = useMutation({
+        mutationFn: authForgotPassword,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data) => {
+            reset()
+            toast.success(data)
+        }
+    })
 
+    const onSubmit = (data: AuthForgotPassword) => mutate(data)
+    
     return (
         <div>
             <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className="  flex w-full flex-col gap-4 p-6 shadow-md">

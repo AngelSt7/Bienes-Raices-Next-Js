@@ -3,6 +3,7 @@ import "./globals.css";
 import { ReactQueryProvider } from "@/src/providers/ReactQueryProvider";
 import { Toaster } from 'react-hot-toast';
 import { NextUIProvider } from "@/src/providers/NextUIProvider";
+import SessionProvider from "@/src/providers/SessionProvider";
 
 export const metadata: Metadata = {
   title: "Bienes Raices",
@@ -19,6 +20,22 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+      <script dangerouslySetInnerHTML={{
+  __html: `
+    (function() {
+      let theme = localStorage.getItem('theme');
+      if (!theme) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  `
+}} />
+
         <link rel="icon" href="./BienesRaicesLogo.png" type="image/png" />
       </head>
 
@@ -26,9 +43,11 @@ export default function RootLayout({
         className={` antialiased`}
       >
         <ReactQueryProvider dehydratedState={dehydratedState}>
-          <NextUIProvider>
-            {children}
-          </NextUIProvider>
+          <SessionProvider>
+            <NextUIProvider>
+              {children}
+            </NextUIProvider>
+          </SessionProvider>
           <Toaster position="top-right" reverseOrder={true} />
         </ReactQueryProvider>
       </body>

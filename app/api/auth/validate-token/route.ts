@@ -1,26 +1,30 @@
-import { prisma } from "@/src/lib/prisma"
+import { prisma } from "@/src/config/prisma"
+import { authTokenSchema } from "@/src/schema/authSchema"
+import { ERRORS } from "@/src/utils/backend/errors/errors"
+import { validateData } from "@/src/utils/backend/validations/validateData"
 import { NextRequest, NextResponse } from "next/server"
 
 export const POST = async (request: NextRequest) => {
     try {
-        const { token } = await request.json()
+        const body = await request.json().catch(()=>({}))
 
+        const validation = validateData(authTokenSchema, body)
+        if (!validation.success) return NextResponse.json({ errors: validation.errors }, { status: 400 });
+
+        const { token } = validation.data
+            
         const tokenExist = await prisma.token.findFirst({where: {token: parseInt(token)}})
 
-        if (!tokenExist) {
-            const error = new Error("Token no válido");
-            return NextResponse.json({ error: error.message }, {status: 404});
-        }
+        if (!tokenExist) 
+            return NextResponse.json({ error: ERRORS.NOT_EXIST_TOKEN.message }, {status: ERRORS.NOT_EXIST_TOKEN.status});
     
         if (new Date() > new Date(tokenExist.expiresAt)) {
             await prisma.token.delete({ where: { id: tokenExist.id } });
-            const error = new Error('El token ha expirado, solicite uno nuevo');
-            return NextResponse.json({ error: error.message }, {status: 404});
+            return NextResponse.json({ error: ERRORS.EXPIRED_TOKEN.message }, {status: ERRORS.EXPIRED_TOKEN.status});
         }
 
         return NextResponse.json({message: "Token confirmado, ingrese su nueva contraseña"})
-
-    } catch (error) {
-        return NextResponse.json({ error: "Error en el servidor" }, { status: 500 });
+    } catch {
+        return NextResponse.json({ error: ERRORS.SERVER_ERROR.message }, { status: ERRORS.SERVER_ERROR.status });
     }
 }

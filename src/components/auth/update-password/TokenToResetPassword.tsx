@@ -1,4 +1,3 @@
-import { AuthToken } from '@/src/types/authTypes'
 import React, { Dispatch, SetStateAction } from 'react'
 import PinInput from '../ui/PinInput'
 

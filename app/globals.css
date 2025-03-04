@@ -2,18 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
-:root {
-  --color-background-light: #f7f7f7;
-  --color-background-dark: #101014;
-}
-
 .light {
-  background-color: var(--color-background-light);
+  background-color: #F5F5F5;
 }
 
 .dark {
-  background-color: var(--color-background-dark);
+  background-color: #101014;
 }
 
 body {
@@ -42,4 +36,14 @@ body::-webkit-scrollbar-thumb {
     scrollbar-color: var(--sb-thumb-color)
                      var(--sb-track-color);
   }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

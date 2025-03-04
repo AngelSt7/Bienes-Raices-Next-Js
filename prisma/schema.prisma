@@ -14,22 +14,105 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   name         String
   lastname     String
-  email        String  @unique
-  password     String
-  authProvider String  @default("manual")
-  confirmed    Boolean @default(false)
-  age          Int
-  number       Int
+  birthDate    DateTime?
+  password     String?
+  email        String     @unique
+  authProvider String     @default("manual")
+  confirmed    Boolean    @default(false)
+  phone        Int?        @unique
+  createdAt    DateTime   @default(now())
   token        Token[]
+  property     Property[]
 }
 
 model Token {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     Int
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Departament {
+  id          Int        @id @default(autoincrement())
+  departament String
+  property    Property[]
+  district    District[]
+}
+
+model District {
+  id            Int         @id @default(autoincrement())
+  district      String
+  departamentId Int
+  departament   Departament @relation(fields: [departamentId], references: [id])
+  property      Property[]
+}
+
+model Type {
+  id       Int        @id @default(autoincrement())
+  type     String
+  property Property[]
+}
+
+model Service {
+  id                Int                 @id @default(autoincrement())
+  service           String
+  serviceToProperty ServiceToProperty[]
+}
+
+model ServiceToProperty {
+  id         Int      @id @default(autoincrement())
+  propertyId Int
+  serviceId  Int
+  property   Property @relation(fields: [propertyId], references: [id])
+  service    Service  @relation(fields: [serviceId], references: [id])
+}
+
+model ImagesToProperty {
   id          Int      @id @default(autoincrement())
-  userId      Int
-  token       Int
-  expiresAt   DateTime 
-  user        User     @relation(fields: [userId], references: [id])
+  propertyId  Int
+  url         String
+  publishedAt DateTime @default(now())
+  property    Property @relation(fields: [propertyId], references: [id])
+}
+
+model Currency {
+  id       Int        @id @default(autoincrement())
+  currency String
+  property Property[]
+}
+
+model Property {
+  id                Int                 @id @default(autoincrement())
+  location          String
+  description       String
+  imageMain         String
+  area              Float
+  price             Float
+  terrace           Boolean
+  elevator          Boolean
+  furnished         Boolean
+  parkingSpaces     Boolean
+  currencyId        Int
+  bedrooms          Int
+  bathrooms         Int
+  yearBuilt         Int
+  districtId        Int
+  typeId            Int
+  userId            Int
+  latitude          Float?
+  longitude         Float?
+  departmentId      Int                 @default(1)
+  publishedAt       DateTime            @default(now())
+  availability      Boolean             @default(true)
+  user              User                @relation(fields: [userId], references: [id])
+  type              Type                @relation(fields: [typeId], references: [id])
+  district          District            @relation(fields: [districtId], references: [id])
+  departament       Departament         @relation(fields: [departmentId], references: [id])
+  currency          Currency            @relation(fields: [currencyId], references: [id])
+  serviceToProperty ServiceToProperty[]
+  imagesToProperty  ImagesToProperty[]
 }
