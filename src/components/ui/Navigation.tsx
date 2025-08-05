@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Menu from '../darshboard/ui/Menu'
+import Menu from '../dashboard/ui/Menu'
 import { messages } from '@/src/utils/frontend/ui/messagesUtils'
 
 export default function Navigation() {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FieldError, FieldErrorsImpl, FieldValues, Merge, UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import ErrorsAuth from '../errors/ErrorsAuth'
 import { usePathname } from 'next/navigation'
-import { AdminFormDataProperty } from '@/src/types/adminTypes/adminProperty'
+import { AdminFormDataProperty } from '@/src/types/adminTypes/property'
 
 type TextAreaProps<T extends FieldValues> = {
     label?: string

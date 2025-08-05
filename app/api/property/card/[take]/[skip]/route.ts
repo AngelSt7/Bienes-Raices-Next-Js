@@ -1,5 +1,5 @@
 import { prisma } from "@/src/config/prisma";
-import { publicCardsSchema } from "@/src/schema/publicPropertySchema";
+import { cardsSchema } from "@/src/schema/public/property";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -41,7 +41,7 @@ export const GET = async (request: NextRequest, { params }: { params: { take: st
         orderBy: { id: 'desc' }
       });
 
-      const propertiesFormat = publicCardsSchema.safeParse(properties);
+      const propertiesFormat = cardsSchema.safeParse(properties);
       return NextResponse.json(propertiesFormat.data);
     } else {
 

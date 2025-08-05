@@ -1,6 +1,6 @@
 
 import { cloudinaryUploadImages } from "@/src/services/cloudinary/cloudinaryUploadImages";
-import { AdminFormDataProperty } from "@/src/types/adminTypes/adminProperty";
+import { AdminFormDataProperty } from "@/src/types/adminTypes/property";
 import { formatImagesGallery } from "./formatImagesGallery";
 
 export const uploadAndFormatImages = async (data: AdminFormDataProperty) => {

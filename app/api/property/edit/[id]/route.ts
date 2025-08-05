@@ -1,7 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Cloudinary } from "@/src/class/Cloudinary";
 import { prisma } from "@/src/config/prisma";
-import { adminFormDataPropertySchema } from "@/src/schema/adminPropertySchema";
+import { adminFormDataPropertySchema } from "@/src/schema/admin/property/property";
 import { addAndRemoveImages, addAndRemoveServices } from "@/src/utils/backend/addAndRemove";
 import { getCoordinates } from "@/src/utils/backend/coordinates/coordinates";
 import { ERRORS } from "@/src/utils/backend/errors/errors";

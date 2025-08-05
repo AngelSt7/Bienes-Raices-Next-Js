@@ -61,6 +61,7 @@ export default function CompleteAccountForm({ user }: DataAccountFormProps) {
                         errorMessage={errors.name}
                         Icon={AiOutlineUser}
                     />
+                    <AiOutlineUser className='text-red-500' />
                     <Input
                         type="text"
                         label="Apellido"

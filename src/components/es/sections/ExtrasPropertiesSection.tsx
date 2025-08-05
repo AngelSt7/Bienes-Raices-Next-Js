@@ -1,8 +1,7 @@
-import { publicGetProperties } from '@/src/services/client/properties/public/publicGetProperties'
 import React from 'react'
 import CardProperty from '../ui/card/CardProperty'
-import { Button } from '@heroui/react'
 import Link from 'next/link'
+import { PropertyClient } from '@/src/services/client/property/property-client'
 
 const PROPERTY_SECTIONS = {
   sale: {
@@ -20,8 +19,8 @@ const PROPERTY_SECTIONS = {
 export default async function ExtrasPropertiesSection() {
 
   const propertiesData = await Promise.all([
-    publicGetProperties(PROPERTY_SECTIONS.sale.type),
-    publicGetProperties(PROPERTY_SECTIONS.rent.type)
+    PropertyClient.list(PROPERTY_SECTIONS.sale.type),
+    PropertyClient.list(PROPERTY_SECTIONS.rent.type)
   ])
 
   return (

@@ -1,4 +1,4 @@
-import { AdminFormDataProperty } from "@/src/types/adminTypes/adminProperty";
+import { AdminFormDataProperty } from "@/src/types/adminTypes/property";
 
 export const formatFormDataImages = (data: Pick<AdminFormDataProperty, 'imageMain' | 'imagesGallery'>) => {
   const formData = new FormData();

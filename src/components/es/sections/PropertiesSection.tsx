@@ -1,10 +1,10 @@
 
-import { publicGetProperties } from '@/src/services/client/properties/public/publicGetProperties';
+import { PropertyClient } from '@/src/services/client/property/property-client';
 import CardProperty from '../ui/card/CardProperty';
 import { Link } from 'lucide-react';
 
 export default async function PropertiesSection() {
-  const properties = await publicGetProperties()
+  const properties = await PropertyClient.list()
   if (properties) return (
     <div className=' w-11/12 max-w-[1400px] mx-auto space-y-6 mt-5'>
       <h1 className=' text-3xl '>Nuevas propiedades</h1>

@@ -1,5 +1,5 @@
 import { prisma } from "@/src/config/prisma"
-import { publicPropertyByIdSchema } from "@/src/schema/publicPropertySchema"
+import { publicPropertyByIdSchema } from "@/src/schema/public/property"
 import { ERRORS } from "@/src/utils/backend/errors/errors"
 import { error } from "console"
 import { NextRequest, NextResponse } from "next/server"

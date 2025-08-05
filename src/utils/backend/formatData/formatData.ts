@@ -1,4 +1,4 @@
-import { AdminFormDataProperty } from "@/src/types/adminTypes/adminProperty";
+import { AdminFormDataProperty } from "@/src/types/adminTypes/property";
 
 export const getDataToJson = (formData: AdminFormDataProperty) => {
     const { districtId, location, area, yearBuilt, typeId, bedrooms, bathrooms, parkingSpaces, furnished, terrace, elevator, description, price, currencyId, imageMain } = formData

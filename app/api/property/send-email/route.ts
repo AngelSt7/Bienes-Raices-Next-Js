@@ -1,5 +1,5 @@
 import { AuthEmail } from "@/src/class/AuthEmail";
-import { publicContactFormSchema } from "@/src/schema/publicPropertySchema";
+import { publicContactFormSchema } from "@/src/schema/public/property";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { validateData } from "@/src/utils/backend/validations/validateData";
 import { NextRequest, NextResponse } from "next/server";

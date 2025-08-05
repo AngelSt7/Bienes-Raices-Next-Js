@@ -1,6 +1,6 @@
 import { Cloudinary } from "@/src/class/Cloudinary";
 import { prisma } from "@/src/config/prisma";
-import { AdminFormDataProperty } from "@/src/types/adminTypes/adminProperty"
+import { AdminFormDataProperty } from "@/src/types/adminTypes/property"
 import { ImagesToProperty, Property, ServiceToProperty } from "@prisma/client"
 import { getPublicId } from "../../frontend/images";
 

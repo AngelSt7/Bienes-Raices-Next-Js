@@ -5,7 +5,7 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 import { validateData } from "@/src/utils/backend/validations/validateData";
 import { getDataToJson } from "@/src/utils/backend/formatData/formatData";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
-import { adminFormDataPropertySchema } from "@/src/schema/adminPropertySchema";
+import { adminFormDataPropertySchema } from "@/src/schema/admin/property/property";
 import { getCoordinates } from "@/src/utils/backend/coordinates/coordinates";
 
 export const POST = async (request: NextRequest) => {

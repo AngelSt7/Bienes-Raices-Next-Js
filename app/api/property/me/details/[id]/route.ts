@@ -1,6 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/src/config/prisma";
-import { adminGetDetailsPropertyInModalSchema } from "@/src/schema/adminPropertySchema";
+import { adminGetDetailsPropertyInModalSchema } from "@/src/schema/admin/property/property";
 import { ERRORS } from "@/src/utils/backend/errors/errors";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";

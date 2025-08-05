@@ -65,8 +65,8 @@ export default function HeaderNavigation({ session }: HeaderNavigationProps) {
                                 <Button className="capitalize" size="sm" as={Link} color="warning" href="/dashboard/properties?page=1" variant="flat">
                                     Mi Perfil
                                 </Button>
-                                <Button className="capitalize" size="sm" as={Link} color="danger" href="#" variant="flat" 
-                                onPress={()=>signOut({ callbackUrl: '/es' })}>
+                                <Button className="capitalize" size="sm" as={Link} color="danger" href="#" variant="flat"
+                                    onPress={() => signOut({ callbackUrl: '/es' })}>
                                     Cerrar Sesión
                                 </Button>
                             </ButtonGroup>

@@ -6,7 +6,6 @@ import { publicSearchProperties } from '@/src/services/client/properties/public/
 import { ReactNode, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { searchFiltersArray } from '@/app/es/search/page';
-import ModalFilterts from '../fitlerSearchs/modal/ModalFilterts';
 import { Button } from '@heroui/react';
 
 type SearchProps = {

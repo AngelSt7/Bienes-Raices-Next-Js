@@ -1,4 +1,4 @@
-import { publicCardSchema, publicContactFormSchema, publicFilterBedroomsSchema, publicFilterPricesSchema, publicPropertyByIdSchema } from "@/src/schema/publicPropertySchema";
+import { publicCardSchema, publicContactFormSchema, publicFilterBedroomsSchema, publicFilterPricesSchema, publicPropertyByIdSchema } from "@/src/schema/public/property";
 import { z } from "zod";
 
 export type PublicCard = z.infer<typeof publicCardSchema>

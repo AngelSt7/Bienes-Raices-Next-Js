@@ -1,6 +1,6 @@
 
 import api from "@/src/axios/axios";
-import { publicCardsSearchSchema } from "@/src/schema/publicPropertySchema";
+import { publicCardsSearchSchema } from "@/src/schema/public/property";
 import { isAxiosError } from 'axios';
 
 type SearchProperties = Record<string, string | undefined>;

@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand";
-import { PaginationType } from "../types/adminTypes/adminProperty";
+import { PaginationType } from "../types/adminTypes/property";
 
 export type PropertySlice = {
     deleteId: number | null;

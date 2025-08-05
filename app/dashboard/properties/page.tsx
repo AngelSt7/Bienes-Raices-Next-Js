@@ -1,10 +1,9 @@
-import DeleteModal from "@/src/components/darshboard/delete/deleteModal";
-import LoadingModal from "@/src/components/darshboard/show/LoadingModal";
-import TableProperties from "@/src/components/darshboard/show/Table";
+import DeleteModal from "@/src/components/dashboard/delete/deleteModal";
+import LoadingModal from "@/src/components/dashboard/show/LoadingModal";
+import TableProperties from "@/src/components/dashboard/show/Table";
 import { getServerSession } from "next-auth";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { IoCreate } from "react-icons/io5";
+import PruebaButton from "../ui/PruebaButton";
 
 export default async function PageProperties({ searchParams }: { searchParams: { page: string } }) {
   const session = await getServerSession()
@@ -19,9 +18,7 @@ export default async function PageProperties({ searchParams }: { searchParams: {
       <LoadingModal />
       <DeleteModal page={Number(page)} key={session.user.email} />
       <div className=" fixed bottom-2 right-2 z-10">
-        <Link href={'/dashboard/properties/create'} className="h-12 w-12 dark:bg-zinc-800/90 dark:hover:bg-zinc-700/90 bg-zinc-300/60 hover:bg-zinc-300/90 rounded-full text-white flex items-center justify-center" type="button">
-          <IoCreate className="w-8 h-8" />
-        </Link>
+        <PruebaButton />
       </div>
     </>
   )

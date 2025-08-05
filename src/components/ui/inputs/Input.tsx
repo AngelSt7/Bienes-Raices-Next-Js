@@ -3,7 +3,7 @@ import { FieldError, FieldValues, UseFormRegister, UseFormSetValue } from 'react
 import ErrorsAuth from '../errors/ErrorsAuth'
 import { IconType } from 'react-icons'
 import { usePathname } from 'next/navigation'
-import { AdminFormDataProperty } from '@/src/types/adminTypes/adminProperty'
+import { AdminFormDataProperty } from '@/src/types/adminTypes/property'
 
 type InputProps<T extends FieldValues> = {
     type: string
